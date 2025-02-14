@@ -14,20 +14,22 @@ const Login = ({ setToken }) => {
     e.preventDefault();
     try {
       const { data } = await axios.post("http://localhost:5000/login", { email, password });
+  
+      // Use the correct key for localStorage
+      localStorage.setItem("authToken", data.token);
       setToken(data.token);
-      localStorage.setItem("token", data.token);
-      
+  
       // Show success toast
       toast.success("Login successful!", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         theme: "colored",
       });
-
+  
       // Redirect after a short delay
       setTimeout(() => navigate("/chat"), 2000);
     } catch (error) {
@@ -44,6 +46,7 @@ const Login = ({ setToken }) => {
       console.error("Login failed:", error);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
