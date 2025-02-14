@@ -17,7 +17,7 @@ wss.on("connection", (ws) => {
     console.log("Received from client:", message.toString());
 
     
-    ws.send(`Bot: You said "${message.toString()}"`);
+    ws.send(`${message.toString()}`);
   });
 
   ws.on("close", () => {
