@@ -1,3 +1,4 @@
+
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -9,29 +10,9 @@ import User from "./models/User.js";
 
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 
-// const server = app.listen(port, () => {
-//   console.log(`Server is listening on port ${port}`);
-// });
-
-// const wss = new WebSocketServer({ server });
-
-// wss.on("connection", (ws) => {
-//   console.log("New client connected");
-
-//   ws.on("message", (message) => {
-//     console.log("Received from client:", message.toString());
-
-    
-//     ws.send(`${message.toString()}`);
-//   });
-
-//   ws.on("close", () => {
-//     console.log("Client disconnected");
-//   });
-// });
 
 
 // Load environment variables
@@ -59,36 +40,20 @@ const wss = new WebSocketServer({ server });
 
 let activeUsers = new Map();
 
-wss.on("connection", (ws, req) => {
-  const token = new URL(`http://localhost${req.url}`).searchParams.get("token");
+wss.on("connection", (ws) => {
+  console.log("New client connected");
 
-  if (!token) {
-    ws.close();
-    return;
-  }
+  ws.on("message", (message) => {
+    console.log("Received from client:", message.toString());
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    activeUsers.set(decoded.id, ws);
+    
+    ws.send(`${message.toString()}`);
+  });
 
-    ws.on("message", (message) => {
-      console.log(`Message from ${decoded.id}:`, message.toString());
-      ws.send(JSON.stringify({ sender: "bot", text: `Echo: ${message.toString()}` }));
-    });
-
-    ws.on("close", () => {
-      activeUsers.delete(decoded.id);
-    });
-
-  } catch (error) {
-    ws.close();
-  }
+  ws.on("close", () => {
+    console.log("Client disconnected");
+  });
 });
-
-app.get("/", (req, res) => {
-  res.send("Server is running...");
-});
-
 
 // Signup Route
 app.post("/signup", async (req, res) => {
@@ -122,3 +87,27 @@ app.post("/login", async (req, res) => {
   const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
   res.json({ token });
 });
+
+
+
+
+// const server = app.listen(port, () => {
+//   console.log(`Server is listening on port ${port}`);
+// });
+
+// const wss = new WebSocketServer({ server });
+
+// wss.on("connection", (ws) => {
+//   console.log("New client connected");
+
+//   ws.on("message", (message) => {
+//     console.log("Received from client:", message.toString());
+
+    
+//     ws.send(`${message.toString()}`);
+//   });
+
+//   ws.on("close", () => {
+//     console.log("Client disconnected");
+//   });
+// });
