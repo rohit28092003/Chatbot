@@ -15,9 +15,9 @@ const Login = ({ setToken }) => {
     try {
       const { data } = await axios.post("http://localhost:5000/login", { email, password });
   
-      // Use the correct key for localStorage
+      // Store token in localStorage
       localStorage.setItem("authToken", data.token);
-      setToken(data.token);
+      setToken(data.token); // Update state in App.js
   
       // Show success toast
       toast.success("Login successful!", {
@@ -30,7 +30,7 @@ const Login = ({ setToken }) => {
         theme: "colored",
       });
   
-      // Redirect after a short delay
+      // Redirect to chat
       setTimeout(() => navigate("/chat"), 2000);
     } catch (error) {
       setError("Invalid email or password");
@@ -47,7 +47,6 @@ const Login = ({ setToken }) => {
     }
   };
   
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <ToastContainer />
