@@ -1,3 +1,5 @@
+// Load environment variables
+dotenv.config();
 
 import express from "express";
 import mongoose from "mongoose";
@@ -15,8 +17,6 @@ const port = process.env.PORT || 5000;
 
 
 
-// Load environment variables
-dotenv.config();
 
 
 const MONGO_URI = process.env.MONGO_URI;

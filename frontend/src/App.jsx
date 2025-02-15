@@ -32,7 +32,7 @@ const App = () => {
    
       <Routes>
         <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Signup />} />
         <Route
           path="/chat"
           element={
