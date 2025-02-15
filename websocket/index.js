@@ -20,7 +20,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://chatbot-smar-5m8qev9q6-rohit28092003s-projects.vercel.app/", credentials: true }));
 app.use(express.json());
 
 // MongoDB Connection
