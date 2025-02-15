@@ -1,3 +1,4 @@
+
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -6,37 +7,35 @@ import { WebSocketServer } from "ws";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "./models/User.js";
-import chatRoutes from "./routes/chatRoutes.js"; // Import chat routes
-
 
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+
+
+
 // Load environment variables
 dotenv.config();
+
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
-app.use(cors({ origin: "https://chatbot-smar-5m8qev9q6-rohit28092003s-projects.vercel.app/", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
 app.use(express.json());
 
 // MongoDB Connection
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("DB Connection Error:", err));
-
-// Routes
-app.use("/api", chatRoutes); // Prefix all user routes with "/api"
 
 // WebSocket Server
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
 const wss = new WebSocketServer({ server });
 
 let activeUsers = new Map();
@@ -46,6 +45,8 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     console.log("Received from client:", message.toString());
+
+    
     ws.send(`${message.toString()}`);
   });
 
@@ -87,7 +88,8 @@ app.post("/login", async (req, res) => {
   res.json({ token });
 });
 
-app.use("/api", chatRoutes); // Now the endpoint is /api/chat
+
+
 
 // const server = app.listen(port, () => {
 //   console.log(`Server is listening on port ${port}`);

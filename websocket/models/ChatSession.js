@@ -1,23 +1,22 @@
 import mongoose from "mongoose";
 
-const ChatSessionSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Ensure this matches the User model name
-    required: true,
-  },
-  sessionId: {
-    type: String,
-    required: true,
-  },
-  chats: [
-    {
-      sender: { type: String, required: true }, // 'user' or 'server'
-      message: { type: String, required: true },
-      timestamp: { type: Date, default: Date.now },
-    },
-  ],
+const messageSchema = new mongoose.Schema({
+  sender: { type: String, required: true, enum: ["user", "bot"] },
+  text: { type: String, required: true, trim: true },
+  timestamp: { type: Date, default: Date.now },
 });
 
-const ChatSession = mongoose.model("ChatSession", ChatSessionSchema);
+const chatSessionSchema = new mongoose.Schema({
+  sessionId: { type: String, required: true, unique: true, index: true },
+  messages: { type: [messageSchema], default: [] },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
+
+chatSessionSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+const ChatSession = mongoose.model("ChatSession", chatSessionSchema);
 export default ChatSession;

@@ -6,13 +6,20 @@ import Chatbot from "./Chatbot";
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("authToken");
-  return token ? children : <Navigate to="/login" replace />;
+  return token ? children : <Navigate to="/login" />;
 };
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("authToken"));
 
   useEffect(() => {
+    // Check for token on mount
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+
+    // Listen for token changes (useful if another tab logs out)
     const handleStorageChange = () => {
       setToken(localStorage.getItem("authToken"));
     };
@@ -22,10 +29,10 @@ const App = () => {
   }, []);
 
   return (
-
+   
       <Routes>
         <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
         <Route
           path="/chat"
           element={
@@ -34,7 +41,6 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
  
   );
