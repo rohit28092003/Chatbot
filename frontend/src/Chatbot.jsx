@@ -97,78 +97,71 @@ const Chatbot = () => {
 
   return (
     <div className="flex h-screen w-full border-none relative">
-      <div className={`fixed md:relative md:w-[15%] bg-black h-screen p-4 flex flex-col justify-between z-10 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
-        <div className="overflow-y-auto">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold border-y py-2 text-white">History</h2>
-            <button className="md:hidden p-2 text-white" onClick={() => setMenuOpen(false)}>
-              <FiX size={24} />
-            </button>
-          </div>
-          {chatHistory.map((chat, index) => (
-            <button
-              key={index}
-              className="w-full text-left p-2 mb-2 text-black bg-white rounded-lg hover:bg-black border border-white hover:text-white"
-              onClick={() => loadChat(chat)}
-            >
-              Chat {index + 1}
-            </button>
-          ))}
-        </div>
-        <button 
-          className="w-full px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          onClick={handleLogout}
-        >
-          Logout
+  <div
+    className={`fixed md:relative md:w-[15%] bg-black h-full md:h-screen p-4 flex flex-col justify-between z-10 transform transition-transform duration-300 ease-in-out ${
+      menuOpen ? "translate-x-0" : "-translate-x-full"
+    } md:translate-x-0`}
+  >
+    <div className="overflow-y-auto flex-1">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold border-y py-2 text-white">History</h2>
+        <button className="md:hidden p-2 text-white" onClick={() => setMenuOpen(false)}>
+          <FiX size={24} />
         </button>
       </div>
-      <button className="absolute top-4 left-4 md:hidden p-2 text-white bg-black rounded-lg" onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-      </button>
-      <div className="w-full md:w-[85%] flex flex-col items-center justify-center h-screen bg-gray-200">
-        <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-4 flex flex-col h-5/6">
-          <div className="flex justify-between mb-2">
-            <h2 className="text-lg text-black">Ask me! 😊</h2>
-            <button 
-              className="px-3 py-1 bg-black text-white rounded-lg border border-black hover:bg-white hover:text-black" 
-              onClick={handleNewChat}
-            >
-              New Chat
-            </button>
+      {chatHistory.map((chat, index) => (
+        <button
+          key={index}
+          className="w-full text-left p-2 mb-2 text-black bg-white rounded-lg hover:bg-black border border-white hover:text-white"
+          onClick={() => loadChat(chat)}
+        >
+          Chat {index + 1}
+        </button>
+      ))}
+    </div>
+    <button className="w-full px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={handleLogout}>
+      Logout
+    </button>
+  </div>
+  <button className="absolute top-4 left-4 md:hidden p-2 text-white bg-black rounded-lg" onClick={() => setMenuOpen(!menuOpen)}>
+    {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+  </button>
+  <div className="w-full md:w-[85%] flex flex-col items-center justify-center h-full md:h-screen bg-gray-200">
+    <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-4 flex flex-col flex-grow h-full md:h-5/6">
+      <div className="flex justify-between mb-2">
+        <h2 className="text-lg text-black">Ask me! 😊</h2>
+        <button className="px-3 py-1 bg-black text-white rounded-lg border border-black hover:bg-white hover:text-black" onClick={handleNewChat}>
+          New Chat
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto mb-4 p-2">
+        {messages.map((msg, index) => (
+          <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-2`}>
+            <span className={`px-4 py-2 rounded-lg ${msg.sender === "user" ? "bg-black text-white" : "bg-gray-300 text-black"}`}>
+              {msg.text}
+            </span>
           </div>
-          <div className="flex-1 overflow-y-auto mb-4 p-2">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"} mb-2`}
-              >
-                <span className={`px-4 py-2 rounded-lg ${msg.sender === "user" ? "bg-black text-white" : "bg-gray-300 text-black"}`}>
-                  {msg.text}
-                </span>
-              </div>
-            ))}
-            {loading && <div className="text-center text-gray-500">typing...</div>}
-            <div ref={messagesEndRef} />
-          </div>
-          <div className="flex items-center w-full border rounded-lg bg-white border-black p-2">
-            <input
-              type="text"
-              className="flex-1 p-2 text-black bg-gray-100 outline-none"
-              placeholder="Say something..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleSend}
-            />
-            <button
-              className="p-2 text-black"
-              onClick={() => handleSend({ key: "Enter" })}
-            >
-              <IoSend size={24} />
-            </button>
-          </div>
-        </div>
+        ))}
+        {loading && <div className="text-center text-gray-500">typing...</div>}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="flex items-center w-full border rounded-lg bg-white border-black p-2">
+        <input
+          type="text"
+          className="flex-1 p-2 text-black bg-gray-100 outline-none"
+          placeholder="Say something..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleSend}
+        />
+        <button className="p-2 text-black" onClick={() => handleSend({ key: "Enter" })}>
+          <IoSend size={24} />
+        </button>
       </div>
     </div>
+  </div>
+</div>
+
   );
 };
 
