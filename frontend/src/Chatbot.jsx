@@ -22,7 +22,8 @@ const Chatbot = () => {
   }, []);
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://localhost:5000");
+    socketRef.current = new WebSocket("wss://chatbot-backend-c5po.onrender.com");
+
 
     socketRef.current.onmessage = (event) => {
       setLoading(false);
