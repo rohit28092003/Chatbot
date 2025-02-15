@@ -37,6 +37,9 @@ const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 const wss = new WebSocketServer({ server });
+app.get("/", (req, res) => {
+  res.send("API is running..."); // Change this to avoid serving the file
+});
 
 let activeUsers = new Map();
 
