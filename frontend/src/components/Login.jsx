@@ -13,8 +13,8 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+   
       const { data } = await axios.post("https://chatbot-backend-c5po.onrender.com/login", { email, password });
-  
       // Store token in localStorage
       localStorage.setItem("authToken", data.token);
       setToken(data.token); // Update state in App.js

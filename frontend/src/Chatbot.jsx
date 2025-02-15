@@ -22,8 +22,8 @@ const Chatbot = () => {
   }, []);
 
   useEffect(() => {
-    socketRef.current = new WebSocket("wss://chatbot-backend-c5po.onrender.com");
-
+ 
+    socketRef.current = new WebSocket("wss://chatbot-backend-c5po.onrender.com/ws");
 
     socketRef.current.onmessage = (event) => {
       setLoading(false);

@@ -13,8 +13,8 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
+   
       await axios.post("https://chatbot-backend-c5po.onrender.com/signup", { email, password });
-
       // Show success toast
       toast.success("Signup successful! Redirecting to login...", {
         position: "top-right",
