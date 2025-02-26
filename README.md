@@ -18,9 +18,9 @@ A real-time chatbot using **WebSocket** for instant communication, **React (Vite
 ## Setup  
 ### Backend Setup  
 ```sh  
-cd backend  
+cd websocket
 npm install  
-node server.js  
+node index.js  
 ```
 
 ### Frontend Setup  
