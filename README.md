@@ -1,4 +1,4 @@
-# Chatbot using WebSocket, React, and MongoDB  
+# Chatbot using WebSocket, React, and MongoDB
 
 ## Overview  
 A real-time chatbot using **WebSocket** for instant communication, **React (Vite)** for the frontend, and **MongoDB** for message storage. The chatbot echoes back the same message sent by the user.  
@@ -16,22 +16,20 @@ A real-time chatbot using **WebSocket** for instant communication, **React (Vite
 - **Database**: MongoDB  
 
 ## Setup  
-
-### Backend  
-```sh
+### Backend Setup  
+```sh  
 cd backend  
 npm install  
 node server.js  
+```
 
-Frontend
-sh
+### Frontend Setup  
+```sh  
 cd frontend  
 npm install  
 npm run dev  
-Usage
-sh
+```
 
-# Open the chat UI in the browser  
-# Send a message; the chatbot will echo it back  
-# Messages are stored in MongoDB  
-
+## Usage  
+1. Send a message; the chatbot will echo it back.  
+2. Messages are stored in MongoDB.  
